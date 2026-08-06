@@ -161,11 +161,24 @@
         }
     });
     
+    // 去重检测
+    function checkDuplicate(newConfig, excludeIndex) {
+        for (var i = 0; i < options.searchEngines.length; i++) {
+            if (i === excludeIndex) continue;
+            var se = options.searchEngines[i];
+            if (se.name === newConfig.name) {
+                return '已存在同名搜索引擎【' + newConfig.name + '】';
+            }
+            if (se.url === newConfig.url) {
+                return '已存在相同网址的搜索引擎【' + se.name + '】';
+            }
+        }
+        return false;
+    }
+
     // 表单提交
     $(document).on('submit', '#customEngineForm', function(e) {
 
-        $modal.modal('hide');
-    
         // 去掉数据绑定
         let newConfig = copyAsData(formapp._data);
         let editIndex = newConfig.index;
@@ -176,11 +189,27 @@
             && options.searchEngines[editIndex]
         ) {
             
+            // 编辑模式：去重检测，排除自身
+            var dupMsg = checkDuplicate(newConfig, editIndex);
+            if (dupMsg) {
+                showTips(dupMsg);
+                return false;
+            }
+            
             for (var key in newConfig) {
                 options.searchEngines[editIndex][key] = newConfig[key];
             }
             
         } else {
+
+            // 新增模式：去重检测
+            var dupMsg = checkDuplicate(newConfig, -1);
+            if (dupMsg) {
+                showTips(dupMsg);
+                return false;
+            }
+
+            $modal.modal('hide');
 
             newConfig.show_icon = true;
             newConfig.position = (copyAsData(options.searchEngines).length + 1);
@@ -209,13 +238,53 @@
         return false;
     });
     
-    $(document).on('click', '#resetCustomEngine', function() {
+    $(document).on('click', '#clearDefaultEngines', function() {
+        var defaultEngines = copyAsData(defaultConfig).searchEngines;
+        var removedCount = 0;
+        for (var i = options.searchEngines.length - 1; i >= 0; i--) {
+            for (var j = 0; j < defaultEngines.length; j++) {
+                if (options.searchEngines[i].url === defaultEngines[j].url) {
+                    options.searchEngines.splice(i, 1);
+                    removedCount++;
+                    break;
+                }
+            }
+        }
+        if (removedCount > 0) {
+            showTips('已删除 ' + removedCount + ' 个内置搜索引擎');
+        } else {
+            showTips('没有找到可删除的内置搜索引擎');
+        }
+        return false;
+    }).on('click', '#resetCustomEngine', function() {
         if (window.confirm('你的自定义设置将会被全部删除。确定重置吗？')) {
+            // 保存当前引擎到后悔历史（最多3条）
+            saveEngineHistory(options.searchEngines);
             options.searchEngines = copyAsData(defaultConfig).searchEngines;
+            $('#undoResetEngine').removeClass('d-none');
         }
         return false;
     }).on('click', '#appendDefaultEngine', function() {
-        options.searchEngines = copyAsData(options).searchEngines.concat(copyAsData(defaultConfig).searchEngines);
+        var defaultEngines = copyAsData(defaultConfig).searchEngines;
+        var appended = 0;
+        for (var i = 0; i < defaultEngines.length; i++) {
+            var exists = false;
+            for (var j = 0; j < options.searchEngines.length; j++) {
+                if (options.searchEngines[j].url === defaultEngines[i].url) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (! exists) {
+                options.searchEngines.push(copyAsData(defaultEngines[i]));
+                appended++;
+            }
+        }
+        if (appended > 0) {
+            showTips('已追加 ' + appended + ' 个内置搜索引擎');
+        } else {
+            showTips('所有内置搜索引擎已存在，无需追加');
+        }
         return false;
     });
 
@@ -224,6 +293,50 @@
             chrome.storage.sync.clear();
             window.location.reload();
         }
+        return false;
+    });
+
+    // 后悔机制：保存/恢复搜索引擎历史（最多3条）
+    var ENGINE_HISTORY_KEY = '_engineHistory';
+
+    function saveEngineHistory(engines) {
+        chrome.storage.sync.get(ENGINE_HISTORY_KEY, function(data) {
+            var history = data[ENGINE_HISTORY_KEY] || [];
+            history.unshift(copyAsData(engines));
+            if (history.length > 3) {
+                history = history.slice(0, 3);
+            }
+            var saveData = {};
+            saveData[ENGINE_HISTORY_KEY] = history;
+            chrome.storage.sync.set(saveData);
+        });
+    }
+
+    function restoreEngineHistory(callback) {
+        chrome.storage.sync.get(ENGINE_HISTORY_KEY, function(data) {
+            var history = data[ENGINE_HISTORY_KEY] || [];
+            if (history.length > 0) {
+                var restored = history.shift();
+                var saveData = {};
+                saveData[ENGINE_HISTORY_KEY] = history;
+                chrome.storage.sync.set(saveData);
+                callback(restored);
+            } else {
+                callback(false);
+            }
+        });
+    }
+
+    $(document).on('click', '#undoResetEngine', function() {
+        restoreEngineHistory(function(engines) {
+            if (engines) {
+                options.searchEngines = engines;
+                $('#undoResetEngine').addClass('d-none');
+                showTips('已恢复');
+            } else {
+                showTips('没有可恢复的历史记录');
+            }
+        });
         return false;
     });
 

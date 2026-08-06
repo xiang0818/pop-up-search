@@ -24,7 +24,7 @@
    "permissions": [ "contextMenus", "scripting", "storage" ],
    "short_name": "划词搜索",
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "4.23.1212",
+   "version": "4.24.0806",
    "web_accessible_resources": [ {
       "matches": [ "\u003Call_urls>" ],
       "resources": [ "/options/*", "/js/*", "/css/*" ]

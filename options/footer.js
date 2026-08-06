@@ -8,6 +8,7 @@
                     <li class="list-inline-item"><a href="setting.html">常规设置</a></li>
                     <li class="list-inline-item"><a href="style.html">自定义样式</a></li>
                     <li class="list-inline-item"><a href="domparser.html">DOMParser</a></li>
+                    <li class="list-inline-item"><a href="webdav.html">WebDAV 备份</a></li>
                     <li class="list-inline-item"><a href="help.html">使用帮助</a></li>
                     <li class="list-inline-item"><a href="about.html">关于版本 4</a></li>
                 </ul>
