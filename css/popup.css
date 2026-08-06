@@ -1,0 +1,140 @@
+/* 
+ * 貌似用自定义元素来实现样式隔离是最好的办法的
+ * #hcSearchePopover 是划词出现的浮标
+ * #hcSearcheModal 是搜索小窗
+ * 分开，以实现可能需要的小窗常驻
+ */
+
+ /* ID + CLASS 提升权重 */
+#hcSearchePopover,
+#hcSearcheModal,
+#hcSearchePopover.hcSearchePopover,
+#hcSearcheModal.hcSearcheModal
+{
+    all: initial;
+    
+    position: absolute;
+    z-index: 2147483647;
+    display: block;
+
+    color: #333333;
+
+    font-size: 13px;
+    line-height: 1.7;
+    
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+#hcSearchePopover.hcSearchePopover-show ,
+#hcSearcheModal.hcSearcheModal-show {
+    transform: scale(1);
+    opacity: 1;
+    
+}
+
+#hcSearcheModal #hcSearcheModalContent {
+    background: #f6f8fa;
+    border: 1px solid #d1d5da;
+    border-radius:3px;
+    color: #586069;
+    display: block;
+    box-shadow: 0 16px 100px 0 rgba(0, 0, 0, 0.2);
+}
+
+#hcSearcheModal #hcSearcheModalBody {
+    margin:0 auto;
+    position: relative;
+    min-width: 360px;
+    background-color: #fff;
+    line-height: 0;
+    font-size: 0;
+    border-top: 1px solid #d1d5da;
+    padding-top: 1px;
+}
+
+#hcSearcheModal #hcSearcheIframe {
+    overflow:hidden;
+    margin:0;
+    padding:0;
+    height:460px;
+    display:block;
+}
+
+#hcSearcheModal #hcSearcheModalHeader,
+#hcSearcheModal #hcSearcheModalFooter {
+    line-height: 1.8;
+    color: #586069;
+}
+
+#hcSearcheModal #hcSearcheModalHeader::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+#hcSearcheModal #hcSearcheModalFooter {
+    border-top: 1px solid #d1d5da;
+    padding:1px;
+    min-height:10px;
+    cursor:move;
+    position:relative;
+    text-align:left
+}
+
+#hcSearcheModal svg{
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    font-size: 1em;
+    background: transparent;
+}
+
+#hcSearcheModal hcsearche-link {
+    display:inline-block;
+    color:#24292e;
+    font-weight: normal;
+    text-decoration: none;
+    cursor:pointer;
+    margin:0;
+    padding: 0.5em 1em;
+    border-radius: 0;
+}
+
+#hcSearcheModal hcsearche-link[data-securrent=true],
+#hcSearcheModal hcsearche-link:hover {
+    background: rgba(27,31,35,.08);
+    background-color: #fff;
+    color: #444d56;
+}
+#hcSearcheModal hcsearche-link>svg {
+    vertical-align: text-bottom;
+}
+#hcSearcheModal hcsearche-link>svg.afterText {
+    vertical-align: baseline;
+    margin-left: 0.1em;
+}
+
+#hcSearcheModal #hcSearcheMinus,
+#hcSearcheModal #hcSearcheCollapse,
+#hcSearcheModal #hcSearcheClose {
+    float:right
+}
+
+#hcSearcheModal #hcSearcheModalFooter hcsearche-link {
+    padding:0.05em 1em;
+    opacity:0.5;
+}
+
+#hcSearcheModal #hcSearcheModalFooter hcsearche-link[single-more-option] {
+    display:none
+}
+
+#hcSearcheModal #hcSearcheModalFooter[enabled-more-options] hcsearche-link[single-more-option] {
+    display:inline-block
+}
+
+#hcSearcheModal #hcSearcheModalLock svg {
+    font-size: 1.3em;
+    vertical-align: middle;
+}

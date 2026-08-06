@@ -1,0 +1,32 @@
+{
+   "background": {
+      "service_worker": "js/background.js"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "/options/defaultConfig.js", "/js/functions.js", "/js/setup.js", "/js/render.js" ],
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "matches": [ "http://*/*", "https://*/*", "file://*/*" ]
+   } ],
+   "description": "划词点击悬浮图标或右键菜单打开小窗搜索，可自定义搜索引擎实现包括无广告小窗搜索、划词翻译、划词搜电影在内的各种个性需求。",
+   "host_permissions": [ "http://*/*", "https://*/*", "file://*/*" ],
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr+BFNYgBkSLQG401dxXFILEyxnTwozJM4TsSA0lh7/eig3m407JBFDIKRIrQ8InDyIiagcABhSRUa68NIAX32t1HqMb1LYFTtSfxgAG8cJJe2Pe128LxcfpHq5eKvVVVgRkytndoEbD7kIVuG7mx0jGpExStZ0GqEzfLN5k8Z9POj2CHIvc8iAeKYvte3pt7SfB6gLguai4w0ojgpiUiPkQU+gYQlK8NYvlxsiwqK6ix41AfP2shpVtYU+ZOTcCOxCXkLREQgkXxFx8yIVcjTOZs/nKdR0AaYts+KLAwhMyUyWAL6JhltjKESyRpx8IpYRSfFbU42lhJA7oYMCy/awIDAQAB",
+   "manifest_version": 3,
+   "name": "划词小窗搜索",
+   "options_page": "options/setting.html",
+   "permissions": [ "contextMenus", "scripting", "storage" ],
+   "short_name": "划词搜索",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "4.23.1212",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "/options/*", "/js/*", "/css/*" ]
+   } ]
+}

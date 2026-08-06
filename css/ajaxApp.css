@@ -1,0 +1,153 @@
+a {
+    color: #1a0dab;
+}
+
+#api-loading {
+    display: block;
+    font-size: 1em;
+    line-height: 2em;
+    padding:0.75em 1.25em
+}
+
+#api-loading .api-loading-text {
+    color: #d1d5da
+}
+
+#api-loading .lds-dual-ring {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    vertical-align: text-top;
+    margin: 0 0.67em 0 0.34em;
+}
+
+#api-loading .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 1.33em;
+    height: 1.33em;
+    margin: 1px;
+    border-radius: 50%;
+    border: 3px solid #d1d5da;
+    border-color: #d1d5da transparent #d1d5da transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#ajaxApp api-result {
+    display: block;
+}
+
+#searchQueryUrl {
+    border-color:#ced4da;
+}
+
+.cse-app {
+    font-size:15px
+}
+
+.cse-pagetips {
+    max-width: 100%;
+    font-size: 0.9em;
+    padding: 0.75rem 1.25rem 0;
+}
+
+.cse-pagetips a {
+    color: #6c757d
+}
+
+.cse-pagetips a:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.cse-keyword {
+    max-width: 35%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.cse-list {
+
+}
+
+.cse-item {
+    border:0;
+    margin:1px 0;
+    padding: 0.75rem 1.25rem;
+}
+
+.cse-media-body {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+.cse-title {
+    font-size: 1em;
+    line-height: 1.23;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+.cse-url,
+.cse-desc {
+    color: rgb(77, 81, 86);
+}
+
+.cse-desc {
+    font-size: 0.85em;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2; 
+    overflow: hidden;
+}
+
+.cse-desc b {
+    font-weight: normal;
+    font-style: normal;
+    color: #c00;
+}
+
+.cse-url {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+    text-decoration: none !important;
+    font-size: 0.85em;
+    color: #626675;
+    color:rgb(0 0 0 / 50%);
+}
+
+.cse-img {
+    float: left;
+    margin: 0.3em 0.5em 0.2em 0;
+    max-width: 8em;
+    max-height: 4em;
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.cse-next-page .btn {
+    font-size: 0.9em
+}

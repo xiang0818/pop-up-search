@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="options.css">
+
+    <title>关于扩展</title>
+</head>
+  
+<body class="bg-light">
+
+  <script src="header.js"></script>
+
+<div class="container">
+
+    <div class="h4 mb-4">您正在使用 <span class="p-2 px-3 text-white bg-success rounded"><span manifest-info="name">划词小窗搜索</span> <span manifest-info="version">0.00.0000</span></span></div>
+
+    <h2 class="h5 mb-3">版本 4</h2>
+    <div class="mb-5">
+        <p>2023年11月24日，<a href="https://www.v2ex.com/t/994901" target="_blank">@CivAx 提供赞助发起版本更新</a>。</p>
+        <p>此次更新内容：</p>
+        <ul class="mt-3 mb-3 p-3 pl-5 border">
+            <li>
+                可用性
+                <ol>
+                    <li>升级到 Manifest V3 以满足 Chrome 新版本要求；</li>
+                    <li>解决悬浮图标在屏幕边缘被右键菜单遮住的问题；</li>
+                    <li>新增对 iframe 的支持，在网页内部 iframe 也可以划词搜索了；</li>
+                    <li>重建 AJAX 加载逻辑，使其在更严格 CSP 的页面也可使用；</li>
+                    <li>新增打开 AJAX 链接按钮，可在新标签页中打开当前小窗数据链接；</li>
+                </ol>
+            </li>
+            <li>
+                易用性
+                <ol>
+                    <li>优化选项页面的展示逻辑，使设置调整更加友好；</li>
+                    <li>新增悬浮图标左偏移设置，可避免与其他扩展图标重叠；</li>
+                    <li>新增默认小窗位置、大小的设置，小窗可以总是在同一个地方出现了；</li>
+                    <li>新增小窗前端功能，支持临时折叠、缩小、调整位置和大小，并支持将临时调整永久保存；</li>
+                    <li>新增自定义样式的暗黑模式示例，新增 AJAX 内部样式设置；</li>
+                    <li>新增支持将所有搜索引擎添加到右键菜单，现在点击右键菜单也可调起小窗了；</li>
+                </ol>
+            </li>
+            <li>
+                功能性
+                <ol>
+                    <li>新增搜索网址当前页面域名参数和数量起始参数，适应更多场景；</li>
+                    <li>新增 DOMParser 类型自定义搜索引擎，可使用普通网页作为数据源，内置三个样例；此类型需要用户自行编写 DOMParser JSON 配置解析网页返回格式数据以供小窗渲染使用；</li>
+                </ol>
+            </li>
+            <li>
+                安全性
+                <ol>
+                    <li>所有链接增加 ref="noopener noreferrer nofollow" 属性，防止追踪来源；</li>
+                    <li>&lt;iframe&gt; 增加 referrerpolicy="no-referrer" 属性，防止追踪来源；</li>
+                    <li>
+                        AJAX 图片通过扩展 Background 后台附带 {referrerPolicy: 'no-referrer'} 加载，防止追踪来源；<br>
+                        <span class="text-muted">为保留真实请求环境，仅声明 no-referrer，并未去除 Cookies 或其他任何请求头；</span>
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </div>
+    
+    <h2 class="h5 mb-3">版本 3</h2>
+    <div class="mb-5">
+        <p>2019年1月30日，春节假期期间，根据 @CivAx 和 V2EX 老哥的功能提议开发此扩展的初始版本。后迭代至版本3，支持自定义搜索引擎，包括 AJAX、IFRAME 和 NEWTAB 类型，支持自定义CSS样式，支持将新窗口的搜索引擎添加至右键菜单。</p>
+        <p>在 V2EX 的帖子记录：</p>
+        <ol class="mt-3 mb-3 p-3 pl-5 border">
+            <li>2019-01-30 @CivAx <a href="https://www.v2ex.com/t/531800" target="_blank">有没有什么 Chrome 插件，可以实现划词翻译类似的划词搜索？</a></li>
+            <li>2019-01-31 @namesc <a href="https://www.v2ex.com/t/532042" target="_blank">应 V2EX 老哥请求做了划词右键小窗搜索 Chrome 扩展</a></li>
+            <li>2019-02-10 @namesc <a href="https://www.v2ex.com/t/533710" target="_blank">开工大吉！全新 Chrome 划词小窗搜索扩展代码上线！</a></li>
+        </ol>
+    </div>
+
+    <h2 class="h5 mb-3">关于</h2>
+    <div class="mb-5 mt-3 p-4 border bg-white">
+        <p class="h5 mb-4"><span manifest-info="name">划词小窗搜索</span></p>
+        <p>由 CivAx 及 V2EX 社区和 Chrome Web Store 评论区提供创意</p>
+        <p>由 Namesc 实施开发</p>
+        <p>基于 Bootstrap、jQuery、Vue 以及 CodeMirror 等社区项目</p>
+        <p>发布在 <a href="https://chrome.google.com/webstore/detail/fgmknallmmochhfngjmmmcpobelihfhe" target="_blank">Chrome Web Store</a></p>
+    </div>
+
+
+</div>
+
+  <script src="footer.js" id="footer-js" page-js-files="about.js"></script>
+  
+  </body>
+</html>

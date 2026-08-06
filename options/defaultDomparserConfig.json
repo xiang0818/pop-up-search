@@ -1,0 +1,70 @@
+{
+    "DOMParserForGoogleDefault": {
+        "itemSelectors": [
+            {"name": "#rso div.g", "excludeNodes": "g-section-with-header, svg, style, script, audio, video"}
+        ],
+        "linkSelectors": [
+            {"name": "a:has(h2), a:has(h3)", "property": "href"}
+        ],
+        "snippetSelectors": [
+            {"name": "div[data-sncf='1'], div[data-sncf='2']", "property": "innerText"},
+            {"name": "*", "property": "innerText", "excludeNodes": "a,cite,h1,h2,h3,h4,h5"}
+        ],
+        "thumbnailSelectors": [
+            {"name": "img", "property": "src"}
+        ],
+        "notFoundSelectors": [
+            {"name": "#botstuff", "property": "innerText"}
+        ]
+    },
+    "DOMParserForBingDefault": {
+        "itemSelectors": [
+            {"name": "#b_results>li", "excludeNodes": "svg, style, script, audio, video"}
+        ],
+        "linkSelectors": [
+            {"name": "h2 a", "property": "href"}
+        ],
+        "snippetSelectors": [
+            {
+                "name": ".b_caption, .b_algoSlug,.ua_d, .df_qnacontent, .b_vList, .b_divsec", 
+                "property": "innerText", 
+                "excludeNodes": ".algoSlug_icon, .b_attribution"
+            }
+        ],
+        "thumbnailSelectors": [
+            {"name": ".siteicon [data-src]", "property": "data-src"}
+        ],
+        "nextPageSelectors": [
+            {"name": ".b_pag"}
+        ],
+        "notFoundSelectors": [
+            {"name": ".b_no h1", "property": "innerText", "excludeNodes": ".mchild_content, [class*=mchild]"}
+        ]
+    },
+    "DOMParserForBaiduDefault": {
+        "itemSelectors": [
+            {"name": "#content_left>.result,#content_left>.result-op", "excludeNodes": ".c-icon, .cos-icon, .sc-icon, svg, style, script, audio, video, [class*=audio-wrap]"}
+        ],
+        "linkSelectors": [
+            {"name": "h3 a, article a", "property": "href"}
+        ],
+        "hostnameSelectors": [
+            {"name": "[class*=pc-source] [class*=site]", "property": "innerText"},
+            {"name": "[class*=siteLink_]", "property": "innerText"},
+            {"name": ".c-showurl", "property": "innerText"}
+        ],
+        "snippetSelectors": [
+            {"name": "[class*=dict-content] object", "property": "innerText"},
+            {"name": "*", "property": "innerText", "excludeNodes": "a,.c-gray,cite,h1,h2,h3,h4,h5"}
+        ],
+        "thumbnailSelectors": [
+            {"name": "img","property": "src"}
+        ],
+        "nextPageSelectors": [
+            {"name": "#page"}
+        ],
+        "notFoundSelectors": [
+            {"name": ".content_none", "property": "innerText", "excludeNodes": ".tip_head, ul"}
+        ]
+    }
+}

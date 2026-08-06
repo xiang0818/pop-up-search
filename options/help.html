@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="options.css">
+
+  <title>使用帮助</title>
+</head>
+  
+<body class="bg-light">
+
+  <script src="header.js"></script>
+
+<div class="container">
+
+    <div class="page_mod fade">
+        <h2 class="h4 mt-5 mb-3" id="custom-search-engine-help">自定义搜索引擎</h2>
+        <div>
+            <ul>
+                <li>
+                    <h3 class="h5 mb-3">名称</h3>
+                    <p>简称，中英文都可，比如 Google 或者 谷歌，设置的图标样式没有自定义时默认会显示名称的第一个字（通过 CSS 实现，如发现在个别网页错误建议反馈以修正）。</p>
+                </li>
+                <li>
+                    <h3 class="h5 mb-3">图标 CSS class</h3>
+                    <p>可使用内置图标，或在自定义样式设置中写好样式，在此填上 class 名称。</p>
+                </li>
+                <li>
+                    <h3 class="h5 mb-3">网址</h3>
+                    <p>访问网址，怎么访问根据类型决定。可使用以下变量：</p>
+                    <ul>
+                        <li class="mb-2">
+                            <div><code>%s</code> 或 <code>${query}</code></div>
+                            以网址参数形式编码的搜索词
+                        </li>
+                        <li class="mb-2">
+                            <div><code>%p</code> 或 <code>${paged}</code></div>
+                            页码
+                        </li>
+                        <li class="mb-2">
+                            <div><code>${hostname}</code></div>
+                            当前页面的网址域名，配合搜索词可实现站内搜索，如：?q=site%3A${hostname}+${query}
+                        </li>
+                        <li class="mb-2">
+                            <div><code>${num}</code></div>
+                            页面结果条数
+                        </li>
+                        <li class="mb-2">
+                            <div><code>${first}</code> 或 <code>${index}</code></div>
+                            用于翻页参数，值是 (${paged}-1)*${num}，如果 ${num} 未指定则以10代替，以此计算出来的结果第一页是0，第二页是10，第三页是20，以此类推
+                        </li>
+                        <li class="mb-2">
+                            <div><code>${start}</code></div>
+                            用于翻页参数，值是 ${first}+1，计算出来的结果第一页是1，第二页是11，第三页是21，以此类推
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 class="h5 mb-3">类型</h3>
+                    <p>访问网址，怎么访问根据类型决定。可使用以下变量：</p>
+                    <ul>
+                        <li class="mb-2" id="ajax-json-method">
+                            <div><b>AJAX 数据接入</b></div>
+                            <p>需返回指定格式 JSON 数据，若有 page_items 则会遍历生成 HTML 列表，若有 body 则直接作为 HTML 代码插入，可根据自己需求返回页面代码。</p>
+                            <p>请注意：部分网站 CSP 禁止加载第三方图片（包括 DATA URL），如通过 body 返回 HTML 代码，请将 HTML 代码中所有 img 标签的真实图片路径添加到 data-src 属性，src 改为占位图片，扩展将通过不受网站 CSP 和图片 CORS 影响的 Backgroud Script 为您加载图片。图片加载后需转换为 DATA URL 嵌入，为减少性能需求，请确保图片是压缩后的缩略图。</p>
+                            <p>此模式支持 <a href="https://developers.google.com/custom-search/v1/overview?hl=zh-cn" target="_blank">Google Custom Search JSON API</a>，网址格式参考：
+                            https://www.googleapis.com/customsearch/v1?key=接口密钥&cx=自定义搜索引擎ID&q=${query}&start=${start}&gl=countryCN</p>
+<textarea rows="10" class="form-control mt-2 mb-2" autocomplete="off" spellcheck="false" disabled>
+{
+    "page_items": [
+        {
+            "title": "标题",
+            "link": "http://网址/",
+            "snippet": "搜索结果描述",
+            "thumbnail": "缩略图"
+        },
+        ...
+    ],
+    "body": "HTML代码", //可选，page_items会生成固定格式，body则完全自定义
+    "page_url": "http://搜索词网址/" //可选，给第几页文本添加链接快速打开
+    "next_page": true //可选，代表还有下一页，将会显示加载下一页按钮
+}
+</textarea>
+                        </li>
+                        <li class="mb-2" id="domparser-method">
+                            <div><b>DOMParser 解析</b></div>
+                            此格式可请求普通网页，但需要指定一个 DOMParser 函数，将网页 HTML 处理成 AJAX 数据格式以供渲染。扩展内置了两个函数以供参考，请看 <a href="/options/domparser.html">DOMParser JSON 设置
+                            </a> 页面。
+                        </li>
+                        <li class="mb-2" id="iframe-method">
+                            <div><b>iframe 内联</b></div>
+                            在打开的小窗通过 iframe 内嵌目标网址，优点是配置简单使用成本低，缺点是支持 iframe 而且页面排版能在小窗展示的网站不好找，目前知道的只有百度移动搜索。此外部分网站设置了 content-security-policy 头会导致无法 iframe 加载其他网站网页，我看的有扩展通过 webRequest 将这个参数去掉了让 Chrome 不执行安全策略来解决这个问题，本扩展目前不考虑这样做，因为不建议 iframe 内联。
+                        </li>
+                        <li class="mb-2" id="newtab-method">
+                            <div><b>新标签页打开</b></div>
+                            点击搜索图标或链接会在打开一个新标签页
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 class="h5 mb-3">（添加到）悬浮图标</h3>
+                    <p>划词后是否显示这个搜索引擎图标。如果悬浮搜索图标选择了不显示图标，则所有的不会显示。</p>
+                </li>
+                <li>
+                    <h3 class="h5 mb-3">（添加到）右键菜单</h3>
+                    <p>将当前搜索引擎添加到右键菜单。受 Chrome 限制，如只开启一个则会在右键一级菜单，如开启多个就会收纳到二级菜单。如有个别重度使用的搜索引擎，则建议只开启那一个，可快速使用。</p>
+                </li>
+            </ul>
+        </div>
+
+        <h2 class="h4 mt-5 mb-3" id="domparser-json-help">DOMParser JSON 配置</h2>
+        <div>
+            <p>由于 CSP 限制，部分网页无法插入动态脚本，因此通过配置 Selectors 的方式实现<a href="/options/domparser.html">自定义解析</a>。JSON 配置第一级每一项相当于一个函数，名称是函数名，子项是解析需要的各类内容选择器或提供转换服务的接口网址。</p>
+            <p>Selectors 模式：每类内容支持指定多个选择器，从上往下，匹配到为止。细项 <code>name</code> 指 querySelector 是使用的选择字符串，<code>property</code> 指匹配内容的属性名，同时还支持 <code>excludeNodes</code> 指定需要移除的元素选择器，可用于移除可能干扰选择的元素。</p>
+            <p>transServer 模式：扩展会向 <code>transServerUrl</code> 提交 POST 数据格式为 <code>{"requestURL": "当前查询的搜索引擎链接", "responseHTML": "搜索引擎链接返回的HTML内容"}</code>，服务端需返回 <a href="#ajax-json-method">AJAX JSON</a> 格式数据，即包含 page_items 数组或 body 字符串的 JSON 格式数据。</p>
+<textarea rows="39" class="form-control" autocomplete="off" spellcheck="false" disabled>
+    {
+        "DOMParserForSearchEngine": { // 函数名
+            "itemSelectors": [ // 搜索结果选择器，从 li 中删除 .news-mod 避免匹配到它的内容
+                {"name": "ul#result>li", "excludeNodes": ".news-mod"}
+            ],
+            "linkSelectors": [ // 链接，取 href 属性值
+                {"name": "a:first-child", "property": "href"}
+            ],
+            "titleSelectors": [ // 标题，可选。从 link 元素中查找。一般不用设置，会自动提取 h2, h3, h4 作为标题。
+                {"name": "h3", "property": "innerText"}
+            ],
+            "hostnameSelectors": [ // 域名，可选。用于在结果中分辨站点
+                {"name": "[class*=siteLink_]", "property": "innerText"}
+            ],
+            "snippetSelectors": [ // 摘要，可选。这里设置两个，如果第一个存在就取第一个，如果不存在就取第二个。
+                {"name": "div[data-sncf='1'], div[data-sncf='2']", "property": "innerText"},
+                {"name": "div", "property": "innerText", "excludeNodes": "a"}
+            ],
+            "thumbnailSelectors": [ // 缩略图，可选。
+                {"name": "img", "property": "src"}
+            ],
+            "nextPageSelectors": [ // 下一页，可选。默认不设置选择器时总是显示下一页按钮。当设置了选择器，如果元素存在则显示下一页按钮，否则不显示。
+                {"name": "#paged"}
+            ],
+            "notFoundSelectors": [ // 未找到结果的提示文本，可选。
+                {"name": "#notfound", "property": "innerText"}
+            ]
+        },
+        "DOMParserForSearchEngine2": { // 服务器转换模式，扩展将把搜索引擎响应内容 POST 给此地址并按其返回结果处理展示内容
+            "transServerUrl": "http://127.0.0.1/myTransServer"
+        },
+        "DOMParserForSearchEngine3": { // 另一个函数
+            ...
+        }
+    }
+</textarea>
+        </div>
+        <h2 class="h4 mt-5 mb-3">各模式运行流程介绍</h2>
+        <div>
+            <h3 class="h5 mt-4">新标签页打开</h3>
+            <blockquote class="border p-3">划词选中 &gt; 触发功能 &gt; 根据搜索参数创建 URL &gt; 在新标签页中打开 &gt; 展示内容</blockquote>
+            <p>优点：配置简单，无兼容性问题。</p>
+            <p>缺点：与右键菜单搜索一样，没有小窗的便捷性。</p>
+
+            <h3 class="h5 mt-4">iframe 内联</h3>
+            <blockquote class="bg-secondary text-white p-3">划词选中 &gt; 触发功能 &gt; 根据搜索参数创建 URL &gt; 通过 iframe 标签加载 &gt; 展示内容</blockquote>
+            <p>优点：配置简单。</p>
+            <p>缺点：常见搜索引擎页面没有专门的PC小窗页面，可用性较差。且受 CSP 影响，部分网页无法加载。</p>
+
+            <h3 class="h5 mt-4">AJAX 数据接入</h3>
+            <blockquote class="bg-info text-white p-3">划词选中 &gt; 触发功能 &gt; 根据搜索参数创建 URL  &gt; 在扩展后台（浏览器客户端本地后台，非服务端）fetch URL 获得数据 &gt; 按 JSON 数据生成 HTML &gt; 展示内容</blockquote>
+            <p>优点：格式化数据，展示稳定，无兼容问题。</p>
+            <p>缺点：需自行适配目标搜索引擎。</p>
+
+            <h3 class="h5 mt-4">DOMParser 解析（Selectors）</h3>
+            <blockquote class="bg-primary text-white p-3">划词选中 &gt; 触发功能 &gt; 根据搜索参数创建 URL &gt; 在扩展后台（客户端本地）fetch URL 获得 HTML 内容 &gt; 根据 Selectors 匹配内容，生成 AJAX 需要的格式 &gt; 按 JSON 数据生成 HTML &gt; 展示内容</blockquote>
+            <p>优点：目标搜索引擎是 PC 网页也可适用，无需自行转换格式，本地 fetch URL 时与在新标签页中请求一样携带 Cookies，因此搜索结果可跟随账号设置。</p>
+            <p>缺点：当目标网页改版时需改动 Selectors 配置以适应；无法在小窗内适配网页验证页面，需要稳定的使用体验，请在目标搜索引擎网页登录账号以及使用稳定的网络环境。</p>
+            
+
+            <h3 class="h5 mt-4">DOMParser 解析（transServer）</h3>
+            <p class="text-danger">此模式所发送的内容虽未涉及 Cookies，但登录后网页 HTML 仍可能涉及隐私内容，因此限定 Server URL 必须为本地地址。请勿使用任何第三方服务，如需使用私人云服务器处理请在本地搭建 HTTP 转发。</p>
+            <blockquote class="bg-success text-white p-3">划词选中 &gt; 触发功能 &gt; 根据搜索参数创建 URL &gt; 在扩展后台（客户端本地）fetch URL 获得 HTML 内容 &gt; 将 HTML 通过 POST 发送给 trans Server（服务端） &gt; 按返回 JSON 数据生成 HTML &gt; 展示内容</blockquote>
+            <p>优点：相比 AJAX 适配接入，DOMParser 通过浏览器本地真实环境请求目标网页，不易触发风控；相比 DOMParser Selectors 模式，transServer 模式拥有 Selectors 的真实请求优点，并可以自行编写处理 HTML 内容的代码，完全控制展示内容。</p>
+            <p>缺点：需要自行编写和维护转换服务。</p>
+            
+        </div>
+        
+    </div>
+</div>
+
+  <script src="footer.js" id="footer-js" page-js-files="help.js"></script>
+  
+  </body>
+</html>
