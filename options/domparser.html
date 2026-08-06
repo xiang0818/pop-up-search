@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/icons.css">
   <link rel="stylesheet" href="options.css">
-
   <link rel="stylesheet" href="domparser.css">
   <title>DOMParser 函数配置</title>
 </head>
@@ -14,7 +13,20 @@
 
     <script src="header.js"></script>
 
-    <div id="DOMParserApp" class="container">
+<div class="settings-layout">
+    <aside class="settings-sidebar">
+        <nav class="settings-nav">
+            <a class="settings-nav-item" href="/options/setting.html">常规设置</a>
+            <a class="settings-nav-item" href="/options/style.html">自定义样式</a>
+            <a class="settings-nav-item" href="/options/webdav.html">WebDAV 备份</a>
+            <a class="settings-nav-item active" href="/options/domparser.html">DOMParser</a>
+            <a class="settings-nav-item" href="/options/help.html">使用帮助</a>
+            <a class="settings-nav-item" href="/options/about.html">关于</a>
+        </nav>
+    </aside>
+    <main class="settings-main">
+
+    <div id="DOMParserApp" class="page_mod fade">
         <p>DOMParser 解析类型会在后台请求页面并使用本页定义的函数处理返回的 HTML，返回与 AJAX 相同的 JSON 格式的结果以供页面展示。具体格式请参考下方内置函数配置以及<a href="/options/help.html#domparser-json-help" target="_blank">使用帮助</a>。
         </p>
 
@@ -37,6 +49,9 @@
             <div id="defaultDomparserCode"></div>
         </div>
     </div>
+
+    </main>
+</div>
 
     <script src="footer.js" id="footer-js" page-js-files="/js/static/codemirror.js,domparser.js"></script>
   </body>

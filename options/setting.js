@@ -67,7 +67,7 @@
     
     $(document).on('click', '.moveSeUp, .moveSeDown', function(e){
 
-        let $this = $(this).parents('.search_engine');
+        let $this = $(this).parents('.engine-item');
         let $sibling = $(this).hasClass('moveSeUp') ? $this.prev() : $this.next();
 
         if ($sibling.length === 0) {
@@ -84,7 +84,9 @@
         name: '',
         url: '',
         type: 'ajax',
-        icon_class: 'search'
+        icon_class: 'search',
+        show_icon: true,
+        show_in_contextmenu: false
     };
             
     window.formapp = new Vue({
@@ -131,7 +133,7 @@
         setFormDefaultConfig();
     });
     
-    $(document).on('click', '[name="engineType"]', function(){
+    $(document).on('change', '[name="engineType"]', function(){
 
         if ($(this).val() === 'domparser') {
             $domparserGroup.addClass('d-block');
@@ -161,6 +163,24 @@
         }
     });
     
+    // 网址变量快捷插入
+    $(document).on('click', '.url-var-chip', function(e) {
+        e.preventDefault();
+        var $url = $('#engineUrl');
+        var textarea = $url[0];
+        var insert = $(this).data('var');
+        if (textarea) {
+            var start = textarea.selectionStart;
+            var end = textarea.selectionEnd;
+            var before = textarea.value.substring(0, start);
+            var after = textarea.value.substring(end);
+            textarea.value = before + insert + after;
+            textarea.selectionStart = textarea.selectionEnd = start + insert.length;
+            textarea.focus();
+            $url.trigger('input'); // 通知 Vue 更新
+        }
+    });
+
     // 去重检测
     function checkDuplicate(newConfig, excludeIndex) {
         for (var i = 0; i < options.searchEngines.length; i++) {
@@ -352,6 +372,35 @@
             $('#'+key+'').val(data[key]).trigger('input');
         }
         return false;
+    });
+
+    // ── 侧边栏滚动联动 ──
+    var $sections = $('.settings-main section');
+    var $navItems = $('.settings-nav-item');
+
+    $navItems.on('click', function(e) {
+        var target = $(this).attr('href');
+        if (target && target.indexOf('#') === 0) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: $(target).offset().top - 80 }, 300);
+        }
+    });
+
+    var scrollTimer = 0;
+    $(window).on('scroll', function() {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function() {
+            var scrollPos = $(window).scrollTop() + 120;
+            var currentSection = '';
+            $sections.each(function() {
+                var top = $(this).offset().top;
+                if (scrollPos >= top) {
+                    currentSection = '#' + $(this).attr('id');
+                }
+            });
+            $navItems.removeClass('active');
+            $navItems.filter('[href="' + currentSection + '"]').addClass('active');
+        }, 50);
     });
 
 }(jQuery)

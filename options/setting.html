@@ -1,18 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="/css/icons.css">
     <link rel="stylesheet" href="/css/popup.css">
-
     <link rel="stylesheet" href="options.css">
-    
     <title>常规设置</title>
   </head>
   
@@ -20,9 +14,23 @@
 
     <script src="header.js"></script>
 
-<div id="pageapp" class="container">
+<div class="settings-layout">
+    <aside class="settings-sidebar">
+        <nav class="settings-nav">
+            <a class="settings-nav-item active" href="#section-icon">悬浮搜索图标</a>
+            <a class="settings-nav-item" href="#section-window">搜索窗口</a>
+            <a class="settings-nav-item" href="#section-engines">搜索引擎</a>
+        </nav>
+        <div class="settings-sidebar-footer">
+            <a href="/options/style.html" class="settings-nav-item muted">自定义样式</a>
+            <a href="/options/webdav.html" class="settings-nav-item muted">WebDAV 备份</a>
+            <a href="/options/domparser.html" class="settings-nav-item muted">DOMParser</a>
+        </div>
+    </aside>
 
-    <div class="page_mod fade">
+    <main class="settings-main" id="pageapp">
+
+    <section id="section-icon" class="page_mod fade">
         <h2 class="h5 mb-3">悬浮搜索图标</h2>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -33,7 +41,7 @@
               <option value="contextmenu">点击右键出现（划词后并点击右键才显示搜索图标）</option>
               <option value="none">不显示图标（即使搜索引擎设置打开悬浮图标也不显示）</option>
             </select>
-        </div>  
+        </div>
 
         <div v-if="popup_icon_listener !== 'none'">
             <div class="card">
@@ -41,9 +49,7 @@
                     <div class="custom-control custom-switch" v-if="popup_icon_listener === 'mouseup'">
                         <input type="checkbox" class="custom-control-input form-control-lg" id="show_on_hover" v-model="show_on_hover">
                         <label class="custom-control-label" for="show_on_hover">鼠标移至图标上方自动打开搜索窗口</label>
-                        <span class="form-text text-muted">
-                        无需点击，但容易误触。
-                        </span>
+                        <span class="form-text text-muted">无需点击，但容易误触。</span>
                     </div>
                     <div v-if="popup_icon_listener === 'contextmenu'">
                         <div class="mb-2">右键菜单碰撞尺寸</div>
@@ -54,8 +60,8 @@
                             <input type="number" class="form-control" id="browser_contextmenu_height" v-model="browser_contextmenu_height">
                         </div>
                         <div class="form-text text-muted">
-                            <p>扩展无法获得右键菜单具体尺寸，需设置尺寸用于右键菜单遮住区域，如在屏幕很多区域出现右键菜单挡住图标的情况，可尝试调整此值，尽量贴合当前浏览器右键菜单的实际尺寸。</p>
-                            注意：实时选中的文本长度和安装的扩展都会影响右键菜单尺寸，此固定尺寸无法确保右键菜单一定不遮住图标。<span class="text-dark">当图标被右键菜单遮住时，我们可以通过下列任意方式取消右键菜单并保留搜索图标：1、按下ESC键；2、点击右键菜单中的复制；3、将光标移到右键菜单以外的区域滚动页面。</span>
+                            <p>扩展无法获得右键菜单具体尺寸，需设置尺寸用于右键菜单遮住区域，如在屏幕很多区域出现右键菜单挡住图标的情况，可尝试调整此值。</p>
+                            注意：实时选中的文本长度和安装的扩展都会影响右键菜单尺寸。<span class="text-dark">当图标被右键菜单遮住时，可以通过：1、按下ESC；2、点击复制；3、滚动页面 来取消右键菜单。</span>
                         </div>
                     </div>
                 </div>
@@ -66,95 +72,22 @@
                         <div>
                             <input type="checkbox" class="custom-control-input form-control-lg" id="show_float_icon_left" v-model="show_float_icon_left">
                             <label class="custom-control-label" for="show_float_icon_left">在光标左上角显示图标</label>
-                            <span class="form-text text-muted">
-                                气泡图标默认出现在光标右上角，如与其他扩展功能冲突，可启用此设置改为左上角。但不影响边缘定位，在浏览器边缘点击时仍然可能显示在左上角。
-                            </span>
+                            <span class="form-text text-muted">气泡图标默认出现在光标右上角，如与其他扩展功能冲突，可启用此设置改为左上角。</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-<!-- 
+    </section>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="custom-control custom-switch">
-                    <div class="">
-                        <input type="checkbox" class="custom-control-input form-control-lg" id="show_float_icon" v-model="show_float_icon">
-                        <label class="custom-control-label" for="show_float_icon">划词自动出现搜索图标</label>
-                        <span class="form-text text-muted">
-                        划词后自动在鼠标右上角显示搜索图标。
-                        </span>
-                    </div>
-                    <div class="mt-4 ml-4" v-if="show_float_icon">
-                        <input type="checkbox" class="custom-control-input form-control-lg" id="show_on_hover" v-model="show_on_hover">
-                        <label class="custom-control-label" for="show_on_hover">鼠标移至图标上方自动打开搜索窗口</label>
-                        <span class="form-text text-muted">
-                        无需点击，但容易误触。
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-<!-- 
-        <div class="card mt-2">
-            <div class="card-body">
-                <p class="small text-muted">每次划词都出现图标太耀眼？试试这个设置。</p>
-                <div class="custom-control custom-switch">
-                    <div>
-                        <input type="checkbox" class="custom-control-input form-control-lg" id="show_contextmenu_icon" v-model="show_contextmenu_icon">
-                        <label class="custom-control-label" for="show_contextmenu_icon">划词后点击右键出现搜索图标</label>
-                        <span class="form-text text-muted">
-                            启用此设置后只有点击右键才显示图标，即使打开自动出现图标也不会自动出现。
-                        </span>
-                    </div>
-                    <div class="mt-3" v-if="show_contextmenu_icon">
-                        <div class="mb-2">右键菜单碰撞尺寸</div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" for="browser_contextmenu_width">右键菜单宽度</span>
-                            <input type="number" class="form-control" id="browser_contextmenu_width" v-model="browser_contextmenu_width">
-                            <span class="input-group-text" for="browser_contextmenu_height">右键菜单高度</span>
-                            <input type="number" class="form-control" id="browser_contextmenu_height" v-model="browser_contextmenu_height">
-                        </div>
-                        <div class="form-text text-muted">
-                            <p>扩展无法获得右键菜单具体尺寸，需设置尺寸用于右键菜单遮住区域，如在屏幕很多区域出现右键菜单挡住图标的情况，可尝试调整此值，尽量贴合当前浏览器右键菜单的实际尺寸。</p>
-                            注意：实时选中的文本长度和安装的扩展都会影响右键菜单尺寸，此固定尺寸无法确保右键菜单一定不遮住图标。<span class="text-dark">当图标被右键菜单遮住时，我们可以通过下列任意方式取消右键菜单并保留搜索图标：1、按下ESC键；2、点击右键菜单中的复制；3、将光标移到右键菜单以外的区域滚动页面。</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-    </div>
-    
-    <!-- 新版全部类型都可以添加到右键菜单 -->
-    <!-- <div class="page_mod fade">
-        <p class="text-muted mt-3">右键菜单</p>
-        <div class="card">
-            <div class="card-body">
-                <div class="custom-control custom-switch">
-                    <div>
-                        <input type="checkbox" class="custom-control-input form-control-lg" id="in_the_menu" v-model="in_the_menu">
-                        <label class="custom-control-label" for="in_the_menu">添加搜索引擎到右键菜单</label>
-                        <span class="form-text text-muted">
-                            将在新标签页打开的搜索引擎添加到划词右键菜单
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    
-    <div class="page_mod fade">
-        <h2 class="h5 mb-3 mt-4">搜索窗口</h2>
+    <section id="section-window" class="page_mod fade">
+        <h2 class="h5 mb-3">搜索窗口</h2>
         <div class="card">
             <div class="card-body">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input form-control-lg" id="auto_close" v-model="auto_close">
                     <label class="custom-control-label" for="auto_close">点击网页任意位关闭搜索窗口</label>
-                    <span class="form-text text-muted">
-                        打开后点击网页任意位置窗口就会自动关闭，否则只有手动点击关闭才会关闭
-                    </span>
+                    <span class="form-text text-muted">打开后点击网页任意位置窗口就会自动关闭，否则只有手动点击关闭才会关闭</span>
                 </div>
             </div>
         </div>
@@ -165,140 +98,109 @@
                     <p>
                         <input type="checkbox" class="custom-control-input form-control-lg" id="fixed_modal" v-model="fixed_modal">
                         <label class="custom-control-label" for="fixed_modal">基于浏览器窗口定位</label>
-                        <span class="form-text text-muted">
-                            打开后搜索窗口可固定在浏览器窗口特定位置，不受页面滚动影响
-                        </span>
+                        <span class="form-text text-muted">打开后搜索窗口可固定在浏览器窗口特定位置，不受页面滚动影响</span>
                     </p>
                 </div>
                 <div class="custom-control custom-switch">
                     <p>
                         <input type="checkbox" class="custom-control-input form-control-lg" id="fixed_position" v-model="fixed_position">
                         <label class="custom-control-label" for="fixed_position">在固定位置显示搜索窗口</label>
-                        <span class="form-text text-muted">
-                            不管在哪个位置划词，小窗总是出现在同一个位置，方便视线快速定位
-                        </span>
+                        <span class="form-text text-muted">不管在哪个位置划词，小窗总是出现在同一个位置，方便视线快速定位</span>
                     </p>
                 </div>
                 <div class="ml-5 mb-2" v-if="fixed_position === true">
                     <div class="input-group mb-3">
-                        <span class="input-group-text" for="popup_pos_top">Top 偏移</span>
+                        <span class="input-group-text" for="popup_pos_top">Top</span>
                         <input type="number" class="form-control" id="popup_pos_top" v-model="popup_pos_top">
-                        <span class="input-group-text" for="popup_pos_bottom">Bottom 偏移</span>
+                        <span class="input-group-text" for="popup_pos_bottom">Bottom</span>
                         <input type="number" class="form-control" id="popup_pos_bottom" v-model="popup_pos_bottom">
-                        <span class="input-group-text" for="popup_pos_left">Left 偏移</span>
+                        <span class="input-group-text" for="popup_pos_left">Left</span>
                         <input type="number" class="form-control" id="popup_pos_left" v-model="popup_pos_left">
-                        <span class="input-group-text" for="popup_pos_right">Right 偏移</span>
+                        <span class="input-group-text" for="popup_pos_right">Right</span>
                         <input type="number" class="form-control" id="popup_pos_right" v-model="popup_pos_right">
                     </div>
-                    <p>看不懂？可点击下方快速设置，也可在小窗底部工具栏可视化手动设置。</p>
-                    <div class="btn-group">
+                    <p class="small text-muted">快捷位置：</p>
+                    <div class="btn-group btn-group-sm">
                         <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":20,"popup_pos_left":20,"popup_pos_bottom":0,"popup_pos_right":0}'>左上</button>
-                        <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":20,"popup_pos_left":200,"popup_pos_bottom":0,"popup_pos_right":0}'>左上往右偏200px</button>
-                        <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":0,"popup_pos_left":20,"popup_pos_bottom":20,"popup_pos_right":0}'>左下</button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":20,"popup_pos_left":0,"popup_pos_bottom":0,"popup_pos_right":20}'>右上</button>
-                        <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":20,"popup_pos_left":0,"popup_pos_bottom":0,"popup_pos_right":200}'>右上往左偏200px</button>
                         <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":0,"popup_pos_left":0,"popup_pos_bottom":20,"popup_pos_right":20}'>右下</button>
+                        <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":20,"popup_pos_left":0,"popup_pos_bottom":0,"popup_pos_right":20}'>右上</button>
+                        <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_pos_top":0,"popup_pos_left":20,"popup_pos_bottom":20,"popup_pos_right":0}'>左下</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row m-3">
-            <div class="col-4">
-                <div class="input-group">
-                    <span class="input-group-text" for="popup_width">窗口宽度</span>
+        <div class="row mt-2">
+            <div class="col-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text">窗口宽度</span>
                     <input type="number" class="form-control" id="popup_width" v-model="popup_width">
                 </div>
             </div>
-            <div class="col-4">
-                <div class="input-group">
-                    <span class="input-group-text" for="popup_height">窗口高度</span>
+            <div class="col-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text">窗口高度</span>
                     <input type="number" class="form-control" id="popup_height" v-model="popup_height">
                 </div>
-            </div>
-            <div class="col-4">
-                <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_width":450,"popup_height":500}'>小窗尺寸</button>
-                <button type="button" class="btn btn-outline-secondary set_popup_style" data-setting='{"popup_width":550,"popup_height":800}'>边栏大窗</button>
             </div>
         </div>
 
         <div class="mt-2"><a href="/options/style.html">自定义样式</a> <span class="small text-muted">包括窗口和图标样式以及AJAX搜索结果样式</span></div>
- 
-    </div>
-    
-    <div class="page_mod fade">     
-        <div class="text-muted mt-5 mb-3 clearfix">
-            搜索引擎 <a href="/options/help.html">使用帮助</a>
-            <span class="small float-right">
-                <a href="#" id="addCustomEngine" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customEngineModal">添加搜索引擎</a>
-                <a href="#" id="appendDefaultEngine" class="btn btn-secondary btn-sm" title="将扩展内置的搜索引擎设置追加到后面">追加内置设置</a>
-                <a href="#" id="clearDefaultEngines" class="btn btn-secondary btn-sm" title="一键删除所有内置搜索引擎">删除内置</a>
-                <a href="#" id="resetCustomEngine" class="btn btn-secondary btn-sm" title="删除现有搜索引擎，恢复内置设置">恢复默认</a>
-                <a href="#" id="undoResetEngine" class="btn btn-outline-warning btn-sm d-none" title="撤销上一次恢复默认操作">撤销恢复</a>
-            </span> 
-        </div>
-        <div id="hcSearcheIcons">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">名称 <span class="small text-muted">（简称）</span></th>
-                    <th scope="col">网址 <span class="small text-muted">（用“%s”代替搜索字词）</span></th>
-                    <th scope="col">设置</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="search_engine"
-                    v-for="(index, engine) in sortByPosition(searchEngines)" 
-                    v-bind:data-position="engine.position"
-                    v-bind:data-seindex="index">
-                    <th scope="row">{{ index + 1 }}</th>
-                    <td>
-                        <div class="mb-2">{{ engine.name }}</div>
-                        <span class="small text-muted"><hcsearche-icon v-bind:data-seclass="engine.icon_class">{{ engine.name }}</hcsearche-icon></span>
-                    </td>
-                    <td>
-                        <div class="mb-2" v-bind:title="engine.url">
-                            <div style="word-break:break-word;max-width:360px;">
-                                <span>
-                                    {{ engine.url }}
-                                </span>
-                            </div>
-                        </div>
-                        <span class="small text-muted">
-                            类型：{{ engine.type }}
-                        <span>
-                    </td>
-                    <td>
-                        <div class="small mb-3">
-                            <a href="#" class="moveSeUp">上移</a> <span class="small text-muted"> / </span> 
-                            <a href="#" class="moveSeDown">下移</a> <span class="small text-muted"> / </span> 
-                            <a href="#" v-bind:data-seindex="index" data-toggle="modal" data-target="#customEngineModal">编辑</a>
-                        </div>
-                        <div class="custom-control custom-switch">
-                            <div class="mb-2">
-                                <input type="checkbox" class="custom-control-input form-control-lg" v-bind:id="'show_icon_se'+ engine.position" v-model="engine.show_icon">
-                                <label class="custom-control-label" v-bind:for="'show_icon_se'+ engine.position">悬浮图标</label>
-                            </div>
-                            <div class="mb-2">
-                                <input type="checkbox" class="custom-control-input form-control-lg" v-bind:id="'show_in_contextmenu_se'+ engine.position" v-model="engine.show_in_contextmenu">
-                                <label class="custom-control-label" v-bind:for="'show_in_contextmenu_se'+ engine.position">右键菜单</label>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+    </section>
 
-            </tbody>
-        </table>
+    <section id="section-engines" class="page_mod fade">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">搜索引擎 <a href="/options/help.html" class="small text-muted ml-2">使用帮助</a></h5>
+            <div class="d-flex gap-2">
+                <a href="#" id="addCustomEngine" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customEngineModal">添加</a>
+                <a href="#" id="appendDefaultEngine" class="btn btn-outline-secondary btn-sm" title="追加内置搜索引擎">追加内置</a>
+                <a href="#" id="clearDefaultEngines" class="btn btn-outline-secondary btn-sm" title="删除所有内置搜索引擎">删除内置</a>
+                <a href="#" id="resetCustomEngine" class="btn btn-outline-secondary btn-sm" title="恢复内置设置">恢复默认</a>
+                <a href="#" id="undoResetEngine" class="btn btn-outline-warning btn-sm d-none" title="撤销恢复">撤销</a>
+            </div>
         </div>
-        <p class="text-muted small text-center mt-5">搜索图标相关设置修改后不会在已打开的页面立即生效，需要刷新或者新打开页面才有效。</p>
-        <p class="text-center"><a href="#" id="resetAllOptions" class="btn btn-link text-secondary btn-sm">删除所有设置（全部恢复到默认设置）</a></p>
-    </div>
 
-</div> <!-- pageapp -->
-    
+        <div class="engine-list">
+            <div class="engine-item"
+                v-for="(index, engine) in sortByPosition(searchEngines)" 
+                v-bind:data-position="engine.position"
+                v-bind:data-seindex="index">
+                <div class="engine-item-main">
+                    <div class="engine-item-order">{{ index + 1 }}</div>
+                    <div class="engine-item-icon">
+                        <hcsearche-icon v-bind:data-seclass="engine.icon_class">{{ engine.name }}</hcsearche-icon>
+                    </div>
+                    <div class="engine-item-body">
+                        <div class="engine-item-name">{{ engine.name }}</div>
+                        <div class="engine-item-url" v-bind:title="engine.url">{{ engine.url }}</div>
+                        <div class="engine-item-meta">
+                            <span class="engine-type-badge" v-bind:class="engine.type">{{ engine.type.toUpperCase() }}</span>
+                            <label class="engine-toggle">
+                                <input type="checkbox" v-bind:id="'show_icon_se'+ engine.position" v-model="engine.show_icon">
+                                <span>悬浮</span>
+                            </label>
+                            <label class="engine-toggle">
+                                <input type="checkbox" v-bind:id="'show_ctx_se'+ engine.position" v-model="engine.show_in_contextmenu">
+                                <span>右键</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="engine-item-actions">
+                    <button type="button" class="engine-action-btn moveSeUp" title="上移">&#9650;</button>
+                    <button type="button" class="engine-action-btn moveSeDown" title="下移">&#9660;</button>
+                    <button type="button" class="engine-action-btn engine-action-edit" v-bind:data-seindex="index" data-toggle="modal" data-target="#customEngineModal" title="编辑">&#9998;</button>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-muted small text-center mt-4">图标相关设置修改后不会在已打开的页面立即生效，需刷新或新打开页面。</p>
+        <p class="text-center"><a href="#" id="resetAllOptions" class="btn btn-link text-muted btn-sm">删除所有设置</a></p>
+    </section>
+
+    </main>
+</div>
+
 <div class="modal fade" id="customEngineModal" tabindex="-1" role="dialog" aria-labelledby="customEngineModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -312,64 +214,94 @@
         </button>
       </div>
       <div class="modal-body">
-        
-          <div class="form-group">
-            <label for="engineName" class="col-form-label">名称 <span class="small text-muted">（尽量短但意义明确，如 Google）</span></label>
-            <input type="text" class="form-control" id="engineName" v-model="name" autocomplete="off" spellcheck="false" required>
-          </div>
-          <div class="form-group">
-            <label for="engineUrl" class="col-form-label">网址 <span class="small text-muted">（用 %s 或 ${query} 代替搜索词，用 %p 或 ${paged} 代替页码，用 ${hostname} 代表当前页面域名，用 ${first} 或 ${index} 代表从0开始的翻页参数，用 ${start} 代表从1开始的翻页参数）</span></label>
-            <!-- <input type="text" class="form-control" id="engineUrl" v-model="url" autocomplete="off" required> -->
-            <textarea rows="2" class="form-control" id="engineUrl" v-model="url" autocomplete="off" spellcheck="false" required></textarea>
-          </div>
-          <div class="form-group hcSearcheIconsExample" id="hcSearcheIcons">
-            <div><label for="engineIcon" class="col-form-label">图标 CSS class <span class="small text-muted">（ 默认 <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="search">search</hcsearche-icon> search</a>，你可以通过自定义 CSS 设置）</span></label></div>
-            
-             <p><input type="text" class="form-control" id="engineIcon" v-model="icon_class" autocomplete="off" spellcheck="false" required></p>
-             
-            <span class="small text-muted">
-                内置图标 CSS class 可选：<br>
-                <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="google">google</hcsearche-icon> google</a>
-                <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="bing">bing</hcsearche-icon> bing</a>
-                <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="duckduckgo">duckduckgo</hcsearche-icon> duckduckgo</a>
-                <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="baidu">baidu</hcsearche-icon> baidu</a>
-                <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="so360">so360</hcsearche-icon> so360</a> 
-                <a href="#" class="search_icon_example"><hcsearche-icon data-seclass="sogou">sogou</hcsearche-icon> sogou</a>
-            </span>
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">类型</label>
-            <div class="mt-2 mb-3">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="engineTypeAjax" name="engineType" class="custom-control-input" value="ajax" v-model="type">
-                    <label class="custom-control-label" for="engineTypeAjax">AJAX 数据接入</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="engineTypeDom" name="engineType" class="custom-control-input" value="domparser" v-model="type">
-                    <label class="custom-control-label" for="engineTypeDom">DOMParser 解析</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="engineTypeIframe" name="engineType" class="custom-control-input" value="iframe" v-model="type">
-                    <label class="custom-control-label" for="engineTypeIframe">iframe 内联</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="engineTypeNewtab" name="engineType" class="custom-control-input" value="newtab" v-model="type">
-                    <label class="custom-control-label" for="engineTypeNewtab">新标签页打开</label>
-                </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-7">
+              <label for="engineName" class="col-form-label">名称</label>
+              <input type="text" class="form-control" id="engineName" v-model="name" autocomplete="off" spellcheck="false" placeholder="例如 Google、必应" required>
             </div>
-            <small class="form-text text-muted">AJAX 数据接入支持 Google Custom Search JSON API 格式。不清楚类型的区别是什么？<a href="/options/help.html" target="_blank">点此查看自定义搜索引擎说明</a></small>
+            <div class="form-group col-md-5">
+              <label for="engineIcon" class="col-form-label">图标样式</label>
+              <input type="text" class="form-control" id="engineIcon" v-model="icon_class" autocomplete="off" spellcheck="false" placeholder="内置图标名或自定义 class" required>
+            </div>
           </div>
-                 
+
+          <div class="form-group">
+            <label for="engineUrl" class="col-form-label">网址模板</label>
+            <textarea rows="2" class="form-control" id="engineUrl" v-model="url" autocomplete="off" spellcheck="false" placeholder="https://example.com/search?q=${query}&amp;page=${paged}" required></textarea>
+            <div class="mt-1 url-vars">
+              <span class="text-muted small mr-2">插入变量：</span>
+              <button type="button" class="btn btn-outline-secondary btn-xs url-var-chip" data-var="${query}" title="搜索词">${query}</button>
+              <button type="button" class="btn btn-outline-secondary btn-xs url-var-chip" data-var="${paged}" title="页码">${paged}</button>
+              <button type="button" class="btn btn-outline-secondary btn-xs url-var-chip" data-var="${hostname}" title="当前页面域名">${hostname}</button>
+              <button type="button" class="btn btn-outline-secondary btn-xs url-var-chip" data-var="${first}" title="从0开始的翻页参数">${first}</button>
+              <button type="button" class="btn btn-outline-secondary btn-xs url-var-chip" data-var="${start}" title="从1开始的翻页参数">${start}</button>
+              <button type="button" class="btn btn-outline-secondary btn-xs url-var-chip" data-var="%s" title="搜索词（旧写法）">%s</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label mb-2">类型</label>
+            <div class="engine-type-grid">
+              <label class="engine-type-card" for="engineTypeAjax">
+                <input type="radio" id="engineTypeAjax" name="engineType" value="ajax" v-model="type">
+                <div class="engine-type-card-inner">
+                  <span class="engine-type-badge ajax">JSON</span>
+                  <strong>AJAX 数据接入</strong>
+                  <small>返回 JSON 数据渲染</small>
+                </div>
+              </label>
+              <label class="engine-type-card" for="engineTypeDom">
+                <input type="radio" id="engineTypeDom" name="engineType" value="domparser" v-model="type">
+                <div class="engine-type-card-inner">
+                  <span class="engine-type-badge dom">HTML</span>
+                  <strong>DOMParser 解析</strong>
+                  <small>解析网页 HTML 提取结果</small>
+                </div>
+              </label>
+              <label class="engine-type-card" for="engineTypeIframe">
+                <input type="radio" id="engineTypeIframe" name="engineType" value="iframe" v-model="type">
+                <div class="engine-type-card-inner">
+                  <span class="engine-type-badge iframe">IFRAME</span>
+                  <strong>iframe 内联</strong>
+                  <small>在小窗中嵌入目标页面</small>
+                </div>
+              </label>
+              <label class="engine-type-card" for="engineTypeNewtab">
+                <input type="radio" id="engineTypeNewtab" name="engineType" value="newtab" v-model="type">
+                <div class="engine-type-card-inner">
+                  <span class="engine-type-badge newtab">TAB</span>
+                  <strong>新标签页打开</strong>
+                  <small>在新标签页中打开链接</small>
+                </div>
+              </label>
+            </div>
+          </div>
+                  
           <div class="form-group d-none" id="engineTypeDomFunctionNameFormGroup">
-            <label for="engineTypeDomFunctionName" class="col-form-label">DOMParser 解析函数名 （使用内置函数或 <a href="/options/domparser.html" target="_blank">自定义函数</a>）</label>
+            <label for="engineTypeDomFunctionName" class="col-form-label">DOMParser 解析函数名 <small class="text-muted">（<a href="/options/domparser.html" target="_blank">自定义函数</a>）</small></label>
             <input type="text" class="form-control" id="engineTypeDomFunctionName" name="domparserFunction" v-model="domparserFunction" autocomplete="off" spellcheck="false" disabled required>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label mb-2">可选设置</label>
+            <div class="custom-control custom-switch mb-2">
+                <input type="checkbox" class="custom-control-input form-control-lg" id="engineShowIcon" v-model="show_icon">
+                <label class="custom-control-label" for="engineShowIcon">悬浮图标</label>
+            </div>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input form-control-lg" id="engineShowContextMenu" v-model="show_in_contextmenu">
+                <label class="custom-control-label" for="engineShowContextMenu">右键菜单</label>
+            </div>
           </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-link" id="deleteEngine">删除此搜索引擎</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-        <button type="submit" class="btn btn-primary">保存设置</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" id="deleteEngine">删除</button>
+        <div class="ml-auto">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+        </div>
       </div>
         </form>
         </div>

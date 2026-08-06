@@ -1,19 +1,17 @@
 
 (function(){
     let template = `
-        <div class="page_mod">
-            <footer class="my-5 pt-5 text-muted text-center text-small">
-                <p class="mb-1">© 2019-2023 Namesc</p>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="setting.html">常规设置</a></li>
-                    <li class="list-inline-item"><a href="style.html">自定义样式</a></li>
-                    <li class="list-inline-item"><a href="domparser.html">DOMParser</a></li>
-                    <li class="list-inline-item"><a href="webdav.html">WebDAV 备份</a></li>
-                    <li class="list-inline-item"><a href="help.html">使用帮助</a></li>
-                    <li class="list-inline-item"><a href="about.html">关于版本 4</a></li>
-                </ul>
-            </footer>
-        </div>
+        <footer class="text-center text-small">
+            <p class="mb-2 text-muted">&copy; 2019-2024 Namesc</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="setting.html">常规设置</a></li>
+                <li class="list-inline-item"><a href="style.html">自定义样式</a></li>
+                <li class="list-inline-item"><a href="domparser.html">DOMParser</a></li>
+                <li class="list-inline-item"><a href="webdav.html">WebDAV 备份</a></li>
+                <li class="list-inline-item"><a href="help.html">使用帮助</a></li>
+                <li class="list-inline-item"><a href="about.html">关于</a></li>
+            </ul>
+        </footer>
     `
 
     document.write(template);
