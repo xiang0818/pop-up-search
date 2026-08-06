@@ -1,71 +1,56 @@
-/* 
- * 貌似用自定义元素来实现样式隔离是最好的办法的
- * #hcSearchePopover 是划词出现的浮标
- * #hcSearcheModal 是搜索小窗
- * 分开，以实现可能需要的小窗常驻
+/*
+ * #hcSearchePopover  划词出现的浮标
+ * #hcSearcheModal    搜索小窗
+ * 用自定义元素 + all:initial 实现样式隔离
  */
 
- /* ID + CLASS 提升权重 */
+/* ── Base ── */
 #hcSearchePopover,
 #hcSearcheModal,
 #hcSearchePopover.hcSearchePopover,
-#hcSearcheModal.hcSearcheModal
-{
+#hcSearcheModal.hcSearcheModal {
     all: initial;
-    
     position: absolute;
     z-index: 2147483647;
     display: block;
-
-    color: #333333;
-
+    color: #1a1a2e;
     font-size: 13px;
     line-height: 1.7;
-    
-    transform: scale(0.9);
     opacity: 0;
-    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+    transition: opacity 0.18s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.34,1.56,.64,1);
 }
 
-#hcSearchePopover.hcSearchePopover-show ,
+#hcSearchePopover { transform: translateY(6px) scale(0.92); }
+#hcSearcheModal   { transform: translateY(10px) scale(0.95); }
+
+#hcSearchePopover.hcSearchePopover-show,
 #hcSearcheModal.hcSearcheModal-show {
-    transform: scale(1);
     opacity: 1;
-    
+    transform: translateY(0) scale(1);
 }
 
+/* ── Modal Content Shell ── */
 #hcSearcheModal #hcSearcheModalContent {
-    background: #f6f8fa;
-    border: 1px solid #d1d5da;
-    border-radius:3px;
-    color: #586069;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    color: #374151;
     display: block;
-    box-shadow: 0 16px 100px 0 rgba(0, 0, 0, 0.2);
+    box-shadow:
+        0 0 0 1px rgba(0,0,0,.03),
+        0 2px 8px rgba(0,0,0,.06),
+        0 8px 32px rgba(0,0,0,.10),
+        0 24px 80px rgba(0,0,0,.12);
+    overflow: hidden;
 }
 
-#hcSearcheModal #hcSearcheModalBody {
-    margin:0 auto;
-    position: relative;
-    min-width: 360px;
-    background-color: #fff;
-    line-height: 0;
-    font-size: 0;
-    border-top: 1px solid #d1d5da;
-    padding-top: 1px;
-}
-
-#hcSearcheModal #hcSearcheIframe {
-    overflow:hidden;
-    margin:0;
-    padding:0;
-    height:460px;
-    display:block;
-}
-
-#hcSearcheModal #hcSearcheModalHeader,
-#hcSearcheModal #hcSearcheModalFooter {
-    line-height: 1.8;
-    color: #586069;
+/* ── Header ── */
+#hcSearcheModal #hcSearcheModalHeader {
+    padding: 0 8px;
+    color: #6b7280;
+    background: #fafbfc;
+    border-bottom: 1px solid #f0f0f3;
+    line-height: 1;
 }
 
 #hcSearcheModal #hcSearcheModalHeader::after {
@@ -73,68 +58,133 @@
     clear: both;
     content: "";
 }
-#hcSearcheModal #hcSearcheModalFooter {
-    border-top: 1px solid #d1d5da;
-    padding:1px;
-    min-height:10px;
-    cursor:move;
-    position:relative;
-    text-align:left
+
+/* ── Engine Tabs ── */
+#hcSearcheModal #hcSearcheModalLinks {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 4px 0;
 }
 
-#hcSearcheModal svg{
+#hcSearcheModal #hcSearcheModalLinks hcsearche-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.12s ease;
+    border-bottom: 2px solid transparent;
+}
+
+#hcSearcheModal #hcSearcheModalLinks hcsearche-link:hover {
+    color: #374151;
+    background: rgba(0,0,0,.04);
+}
+
+#hcSearcheModal #hcSearcheModalLinks hcsearche-link[data-securrent=true] {
+    color: #111827;
+    font-weight: 600;
+    background: rgba(0,0,0,.05);
+    border-bottom-color: #2563eb;
+    border-radius: 6px 6px 0 0;
+}
+
+#hcSearcheModal #hcSearcheModalLinks hcsearche-link > svg {
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+#hcSearcheModal #hcSearcheModalLinks hcsearche-link > svg.afterText {
+    margin-left: 2px;
+}
+
+/* Controls (close/collapse/minus) */
+#hcSearcheModal #hcSearcheMinus,
+#hcSearcheModal #hcSearcheCollapse,
+#hcSearcheModal #hcSearcheClose {
+    float: right;
+    padding: 5px 8px;
+    border-radius: 6px;
+    opacity: 0.5;
+    transition: opacity 0.12s ease, background 0.12s ease;
+}
+
+#hcSearcheModal #hcSearcheMinus:hover,
+#hcSearcheModal #hcSearcheCollapse:hover,
+#hcSearcheModal #hcSearcheClose:hover {
+    opacity: 1;
+    background: rgba(0,0,0,.06);
+}
+
+/* ── Body ── */
+#hcSearcheModal #hcSearcheModalBody {
+    margin: 0 auto;
+    position: relative;
+    min-width: 360px;
+    background: #fff;
+    line-height: 0;
+    font-size: 0;
+}
+
+#hcSearcheModal #hcSearcheIframe {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 460px;
+    display: block;
+}
+
+/* ── Footer ── */
+#hcSearcheModal #hcSearcheModalFooter {
+    border-top: 1px solid #f0f0f3;
+    padding: 2px 4px;
+    min-height: 28px;
+    cursor: move;
+    position: relative;
+    text-align: left;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-radius: 0 0 12px 12px;
+}
+
+#hcSearcheModal #hcSearcheModalFooter hcsearche-link {
+    padding: 3px 6px;
+    opacity: 0.35;
+    border-radius: 5px;
+    transition: opacity 0.12s ease, background 0.12s ease;
+}
+
+#hcSearcheModal #hcSearcheModalFooter hcsearche-link:hover {
+    opacity: 0.8;
+    background: rgba(0,0,0,.05);
+}
+
+#hcSearcheModal #hcSearcheModalFooter hcsearche-link[single-more-option] {
+    display: none;
+}
+#hcSearcheModal #hcSearcheModalFooter[enabled-more-options] hcsearche-link[single-more-option] {
+    display: inline-flex;
+}
+
+/* ── SVG ── */
+#hcSearcheModal svg {
     padding: 0;
     width: 1em;
     height: 1em;
     font-size: 1em;
     background: transparent;
-}
-
-#hcSearcheModal hcsearche-link {
-    display:inline-block;
-    color:#24292e;
-    font-weight: normal;
-    text-decoration: none;
-    cursor:pointer;
-    margin:0;
-    padding: 0.5em 1em;
-    border-radius: 0;
-}
-
-#hcSearcheModal hcsearche-link[data-securrent=true],
-#hcSearcheModal hcsearche-link:hover {
-    background: rgba(27,31,35,.08);
-    background-color: #fff;
-    color: #444d56;
-}
-#hcSearcheModal hcsearche-link>svg {
-    vertical-align: text-bottom;
-}
-#hcSearcheModal hcsearche-link>svg.afterText {
-    vertical-align: baseline;
-    margin-left: 0.1em;
-}
-
-#hcSearcheModal #hcSearcheMinus,
-#hcSearcheModal #hcSearcheCollapse,
-#hcSearcheModal #hcSearcheClose {
-    float:right
-}
-
-#hcSearcheModal #hcSearcheModalFooter hcsearche-link {
-    padding:0.05em 1em;
-    opacity:0.5;
-}
-
-#hcSearcheModal #hcSearcheModalFooter hcsearche-link[single-more-option] {
-    display:none
-}
-
-#hcSearcheModal #hcSearcheModalFooter[enabled-more-options] hcsearche-link[single-more-option] {
-    display:inline-block
+    vertical-align: middle;
 }
 
 #hcSearcheModal #hcSearcheModalLock svg {
-    font-size: 1.3em;
-    vertical-align: middle;
+    font-size: 1.2em;
 }

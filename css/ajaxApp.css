@@ -1,153 +1,262 @@
-a {
-    color: #1a0dab;
+.cse-app {
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #1f2937;
+    background: #fff;
+    padding-bottom: 8px;
 }
 
+/* ── Search Navbar ── */
+#searchNavbar {
+    background: #fafbfc;
+    border-bottom: 1px solid #f0f0f3;
+    padding: 8px 12px;
+    box-shadow: none;
+}
+
+#searchNavbar .input-group-sm .form-control {
+    font-size: 13px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 6px 12px;
+    background: #fff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#searchNavbar .input-group-sm .form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+    outline: none;
+}
+
+#searchQueryUrl {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #6b7280;
+}
+
+#searchQueryUrl:hover {
+    color: #2563eb;
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+/* ── Loading ── */
 #api-loading {
-    display: block;
-    font-size: 1em;
-    line-height: 2em;
-    padding:0.75em 1.25em
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.25rem;
+    font-size: 13px;
+    color: #9ca3af;
 }
 
 #api-loading .api-loading-text {
-    color: #d1d5da
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 #api-loading .lds-dual-ring {
     display: inline-block;
-    width: 2em;
-    height: 2em;
-    vertical-align: text-top;
-    margin: 0 0.67em 0 0.34em;
+    width: 20px;
+    height: 20px;
 }
 
 #api-loading .lds-dual-ring:after {
     content: " ";
     display: block;
-    width: 1.33em;
-    height: 1.33em;
+    width: 14px;
+    height: 14px;
     margin: 1px;
     border-radius: 50%;
-    border: 3px solid #d1d5da;
-    border-color: #d1d5da transparent #d1d5da transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
+    border: 2px solid #d1d5db;
+    border-color: #d1d5db transparent #d1d5db transparent;
+    animation: lds-dual-ring 1s linear infinite;
 }
 
 @keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-#ajaxApp api-result {
-    display: block;
-}
-
-#searchQueryUrl {
-    border-color:#ced4da;
-}
-
-.cse-app {
-    font-size:15px
-}
-
+/* ── Page Tips ── */
 .cse-pagetips {
-    max-width: 100%;
-    font-size: 0.9em;
-    padding: 0.75rem 1.25rem 0;
+    font-size: 12px;
+    padding: 0.5rem 1rem;
+    color: #9ca3af;
 }
 
 .cse-pagetips a {
-    color: #6c757d
-}
-
-.cse-pagetips a:hover {
-    color: #0056b3;
+    color: #6b7280;
     text-decoration: none;
 }
 
-.cse-keyword {
-    max-width: 35%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    white-space: nowrap;
-    display: inline-block;
-    vertical-align: bottom;
+.cse-pagetips a:hover {
+    color: #2563eb;
 }
 
-.cse-list {
+.cse-keyword {
+    color: #374151;
+    font-weight: 600;
+}
 
+/* ── Result List ── */
+.cse-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .cse-item {
-    border:0;
-    margin:1px 0;
-    padding: 0.75rem 1.25rem;
+    border: 0;
+    padding: 10px 1rem;
+    cursor: default;
+    transition: background 0.1s ease;
+}
+
+.cse-item:hover {
+    background: #f9fafb;
+}
+
+.cse-media {
+    display: flex;
+    gap: 0;
 }
 
 .cse-media-body {
-    max-width: 100%;
+    flex: 1;
+    min-width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
 }
 
+/* ── Title ── */
 .cse-title {
-    font-size: 1em;
-    line-height: 1.23;
-    margin-bottom: 4px;
+    font-size: 15px;
+    line-height: 1.35;
+    margin-bottom: 3px;
+}
+
+.cse-title .cse-link,
+.cse-title a {
+    color: #1a0dab;
+    text-decoration: none;
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-break: break-all;
 }
 
-.cse-url,
-.cse-desc {
-    color: rgb(77, 81, 86);
+.cse-title .cse-link:hover,
+.cse-title a:hover {
+    text-decoration: underline;
 }
 
+/* ── Snippet ── */
 .cse-desc {
-    font-size: 0.85em;
-    word-break: break-all;
-    text-overflow: ellipsis;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #4b5563;
+    word-break: break-word;
     display: -webkit-box;
-    -webkit-box-orient: vertical; 
-    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
+    margin-bottom: 3px;
 }
 
 .cse-desc b {
-    font-weight: normal;
-    font-style: normal;
-    color: #c00;
+    font-weight: 600;
+    color: #cc0000;
 }
 
+/* ── URL / Hostname ── */
 .cse-url {
-    word-break: break-all;
-    text-overflow: ellipsis;
+    font-size: 12px;
+    line-height: 1;
+    color: #006621;
+    text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     max-width: 100%;
-    text-decoration: none !important;
-    font-size: 0.85em;
-    color: #626675;
-    color:rgb(0 0 0 / 50%);
+    display: block;
+}
+
+.cse-url:hover {
+    text-decoration: underline;
+}
+
+/* ── Thumbnail ── */
+.cse-img-link {
+    float: left;
+    margin-right: 10px;
+    text-decoration: none;
 }
 
 .cse-img {
-    float: left;
-    margin: 0.3em 0.5em 0.2em 0;
-    max-width: 8em;
-    max-height: 4em;
-    min-width: 32px;
+    display: block;
+    max-width: 96px;
+    max-height: 56px;
+    min-width: 48px;
     min-height: 32px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #e5e7eb;
+    background: #f3f4f6;
+}
+
+/* ── Next Page ── */
+.cse-next-page {
+    text-align: center;
+    padding: 12px 1rem;
 }
 
 .cse-next-page .btn {
-    font-size: 0.9em
+    font-size: 13px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 7px 0;
+    background: #fff;
+    color: #374151;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.12s ease;
+}
+
+.cse-next-page .btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+/* ── Error Toast (inside iframe) ── */
+.toast {
+    margin: 1rem;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #991b1b;
+    font-size: 13px;
+}
+
+.toast-header {
+    background: transparent;
+    border-bottom: 1px solid #fecaca;
+    padding: 10px 12px;
+}
+
+.toast-body {
+    padding: 10px 12px;
+    line-height: 1.6;
+}
+
+/* ── Generic link color ── */
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }
